@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Al3nood.Signature | Order Studio</title>
+<style>
+:root{
+  --ink:#1c140d;--muted:#6b5b4b;--gold:#b98936;--gold2:#e3c171;--paper:#fffaf2;
+  --soft:#f4eadc;--line:#ddcdb8;--green:#2f855a;--blue:#2b6cb0;--red:#b83232;
+  --violet:#7454a4;--shadow:0 18px 50px rgba(28,20,13,.14);--r:8px;
+  font-family:Inter,Segoe UI,Tahoma,Arial,sans-serif;
+}
+*{box-sizing:border-box} html{scroll-behavior:smooth}
+body{margin:0;background:var(--paper);color:var(--ink);min-height:100vh}
+body.rtl{direction:rtl;font-family:Tahoma,Arial,sans-serif}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(255,250,242,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;max-width:1320px;margin:auto;padding:12px 18px}
+.brand{display:flex;align-items:center;gap:12px;min-width:220px}
+.brand-mark{width:48px;height:48px;border-radius:50%;background:#fff url("signature.jpg") center/145% no-repeat;border:1px solid var(--gold2);box-shadow:0 8px 22px rgba(185,137,54,.18)}
+.brand h1{font-size:20px;line-height:1;margin:0;letter-spacing:.02em}.brand small{color:var(--muted)}
+.nav{display:flex;align-items:center;gap:6px;flex-wrap:wrap;justify-content:center}
+.nav button,.lang button{border:1px solid transparent;background:transparent;color:var(--ink);padding:9px 12px;border-radius:var(--r)}
+.nav button.active,.nav button:hover,.lang button.active,.lang button:hover{border-color:var(--gold);color:var(--gold);background:#fff}
+.lang{display:flex;gap:6px}.page{display:none;max-width:1320px;margin:auto;padding:28px 18px 56px}.page.active{display:block}
+.hero{position:relative;min-height:310px;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(280px,.9fr);align-items:center;gap:24px;padding:36px;border-bottom:1px solid var(--line);overflow:hidden;background:linear-gradient(135deg,#fffaf2,#f1dfc4)}
+.hero:after{content:"";position:absolute;inset:0;background:url("signature.jpg") right 4% center/420px no-repeat;opacity:.11;pointer-events:none}
+.hero>*{position:relative;z-index:1}.eyebrow{letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-size:12px;font-weight:700}
+.hero h2{font-size:clamp(36px,5vw,64px);line-height:1.03;margin:10px 0;overflow-wrap:anywhere}.hero p{max-width:650px;color:var(--muted);font-size:18px;line-height:1.7}
+.quick-panel{background:rgba(255,255,255,.75);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
+.quick-grid,.stats,.form-grid,.detail-grid,.catalogue-grid{display:grid;gap:14px}.quick-grid{grid-template-columns:repeat(2,1fr)}
+.stat,.card,.section,.order-card,.kanban-col,.shop-card{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:0 8px 26px rgba(28,20,13,.06)}
+.stat{padding:16px}.stat b{display:block;font-size:34px;color:var(--gold)}.stat span{color:var(--muted);font-size:13px}
+.section{padding:22px;margin-top:22px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.section h3{margin:0;font-size:24px}.subtle{color:var(--muted);font-size:14px}.form-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700}
+input,textarea,select{width:100%;border:1px solid var(--line);border-radius:var(--r);background:#fff;color:var(--ink);padding:12px;outline:none}
+textarea{min-height:92px;resize:vertical}input:focus,textarea:focus,select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(185,137,54,.16)}
+.measures{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px}.measure{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:#fff}
+.measure span{display:block;font-size:12px;color:var(--muted);font-weight:700}.measure input{margin-top:8px;text-align:center;font-weight:700}
+.upload{border:1px dashed var(--gold);background:#fffaf4;border-radius:var(--r);padding:16px;display:grid;grid-template-columns:86px 1fr;gap:14px;align-items:center}
+.upload-preview{height:86px;border-radius:var(--r);background:#fff url("signature.jpg") center/cover no-repeat;border:1px solid var(--line);overflow:hidden}
+.upload-preview img,.thumb img{width:100%;height:100%;object-fit:cover;display:block}.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.btn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:var(--r);padding:10px 14px;transition:.2s}
+.btn:hover{border-color:var(--gold);color:var(--gold)}.btn.primary{background:var(--ink);border-color:var(--ink);color:var(--gold2)}.btn.primary:hover{background:var(--gold);border-color:var(--gold);color:#fff}
+.btn.good{border-color:var(--green);color:var(--green)}.btn.danger{border-color:var(--red);color:var(--red)}.btn.small{padding:7px 10px;font-size:12px}
+.stats{grid-template-columns:repeat(5,minmax(140px,1fr));margin-top:20px}.dashboard-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:var(--r)}table{width:100%;border-collapse:collapse;background:#fff;min-width:860px}
+th,td{padding:12px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}body.rtl th,body.rtl td{text-align:right}th{background:var(--ink);color:var(--gold2);font-size:12px;text-transform:uppercase;letter-spacing:.08em}
+.badge{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:5px 9px;font-size:12px;font-weight:800}.badge:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.workshop{background:#f0e9ff;color:var(--violet)}.shop{background:#e8f5ef;color:var(--green)}.done{background:#eaf3ff;color:var(--blue)}
+.pay-ok{color:var(--green);font-weight:800}.pay-due{color:var(--red);font-weight:800}.thumb{width:58px;height:58px;border:1px solid var(--line);border-radius:var(--r);background:#fff url("signature.jpg") center/cover no-repeat;overflow:hidden}
+.chart{height:220px;display:flex;align-items:end;gap:10px;border:1px solid var(--line);border-radius:var(--r);padding:16px;background:linear-gradient(#fff,#fff7ea)}
+.bar{flex:1;min-width:28px;background:linear-gradient(180deg,var(--gold2),var(--gold));border-radius:6px 6px 0 0;position:relative}.bar span{position:absolute;left:0;right:0;top:-24px;text-align:center;font-size:12px;font-weight:800}.bar small{position:absolute;left:0;right:0;bottom:-22px;text-align:center;font-size:11px;color:var(--muted)}
+.status-hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#1c140d,#3a2616);color:#fff;border-color:#4d351d}.status-hero:after{content:"";position:absolute;inset:0;background:url("signature.jpg") right 20px center/280px no-repeat;opacity:.08}.status-hero>*{position:relative;z-index:1}.status-hero h3{color:var(--gold2);font-size:30px}.status-strip{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.status-pill{border:1px solid rgba(227,193,113,.35);border-radius:99px;padding:8px 12px;background:rgba(255,255,255,.06);color:#fff;font-weight:800}
+.kanban{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.kanban-col{padding:14px;min-height:300px;position:relative;overflow:hidden}.kanban-col:before{content:"";position:absolute;inset:0 0 auto;height:5px;background:var(--stage-color,var(--gold));}.kanban-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:1px solid var(--line);padding:10px 0 12px;margin-bottom:12px;gap:10px}.kanban-title{display:flex;gap:10px;align-items:center}.kanban-icon{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--stage-soft,#fff6e4);color:var(--stage-color,var(--gold));font-weight:900}.kanban-desc{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+.order-card{padding:13px;margin-bottom:10px;box-shadow:none}.order-card:hover{border-color:var(--gold);transform:translateY(-1px)}.order-card strong{display:block}.order-card small{color:var(--muted)}
+.shop-list{display:grid;gap:12px}.shop-card{display:grid;grid-template-columns:70px 1fr auto;gap:14px;align-items:center;padding:14px}.modal{position:fixed;inset:0;background:rgba(28,20,13,.72);z-index:50;display:none;align-items:center;justify-content:center;padding:18px}
+.modal.show{display:flex}.modal-card{width:min(940px,100%);max-height:92vh;overflow:auto;background:var(--paper);border:1px solid var(--gold);border-radius:var(--r);box-shadow:var(--shadow)}
+.modal-head{position:sticky;top:0;background:var(--ink);color:#fff;padding:16px;display:flex;justify-content:space-between;gap:12px;align-items:center;z-index:1}.modal-head h3{margin:0;color:var(--gold2)}
+.modal-body{padding:18px}.detail-grid{grid-template-columns:repeat(3,1fr)}.detail{border:1px solid var(--line);border-radius:var(--r);background:#fff;padding:12px}.detail b{display:block;color:var(--muted);font-size:12px;text-transform:uppercase}.detail span{display:block;margin-top:6px;font-weight:700;white-space:pre-wrap}
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}.stage{border:1px solid var(--line);border-radius:var(--r);padding:10px;background:#fff;text-align:center;font-weight:800}.stage.current{border-color:var(--gold);background:#fff6e4;color:var(--gold)}
+.catalogue-grid{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}.dress-slot,.catalogue-card{border:1px solid var(--line);border-radius:var(--r);padding:14px;background:#fff;min-height:180px}.dress-slot .photo-space,.catalogue-photo{height:150px;border-radius:var(--r);background:linear-gradient(135deg,#fff7ea,#f3e0bf);display:grid;place-items:center;color:var(--gold);font-weight:800;overflow:hidden}.catalogue-photo img{width:100%;height:100%;object-fit:cover;display:block}.catalogue-card h4{font-size:18px;margin:12px 0 4px}.catalogue-meta{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:99px;padding:5px 9px;background:#fffaf4;font-size:12px;font-weight:800}.swatch{width:14px;height:14px;border-radius:50%;border:1px solid var(--line);background:var(--dress-color,#d9c2a0)}.catalogue-form{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.selected-dress{grid-column:1/-1;display:none;grid-template-columns:82px 1fr;gap:12px;align-items:center;border:1px solid var(--gold2);border-radius:var(--r);background:#fff7e8;padding:12px}.selected-dress.show{display:grid}.selected-dress .thumb{width:82px;height:82px}.selected-dress b{display:block}.selected-dress span{display:block;color:var(--muted);margin-top:4px}
+.toast{position:fixed;right:18px;bottom:18px;z-index:60;background:var(--ink);color:#fff;border-left:4px solid var(--gold);padding:13px 16px;border-radius:var(--r);box-shadow:var(--shadow);display:none}.toast.show{display:block}
+@media(max-width:900px){.hero,.dashboard-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}.form-grid,.detail-grid,.kanban,.catalogue-form{grid-template-columns:1fr}.shop-card{grid-template-columns:58px 1fr}.shop-card .btn-row{grid-column:1/-1}.topbar-inner{align-items:flex-start;flex-direction:column}.nav{justify-content:flex-start}.hero{padding:24px}.hero:after{background-size:280px;background-position:right -60px top 20px}.quick-grid{grid-template-columns:1fr}}
+@media print{.topbar,.btn,.modal-head button,.toast{display:none!important}.page{display:block!important;padding:0}.section,.stat,.card{box-shadow:none}.modal{position:static;display:block;background:#fff;padding:0}.modal-card{max-height:none;width:100%;border:0}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><div class="brand-mark"></div><div><h1>Al3nood.Signature</h1><small data-i="brandSub">Order studio</small></div></div>
+    <nav class="nav" id="nav"></nav>
+    <div class="lang"><button id="enBtn" onclick="setLang('en')">EN</button><button id="arBtn" onclick="setLang('ar')">عربي</button></div>
+  </div>
+</header>
+
+<main>
+  <section id="customer" class="page active">
+    <div class="hero">
+      <div>
+        <div class="eyebrow" data-i="heroEye">New Order</div>
+        <h2>Al3nood.Signature</h2>
+        <p data-i="heroText">Create a complete dress order in one step. Photos, measurements, pricing, and workshop notes flow instantly to Admin, Clothes Status, and Shopdesk.</p>
+        <div class="btn-row"><button class="btn primary" onclick="document.getElementById('orderForm').scrollIntoView()" data-i="startOrder">Start order</button><button class="btn" onclick="go('admin')" data-i="adminDesk">Admin desk</button></div>
+      </div>
+      <div class="quick-panel">
+        <div class="section-head"><h3 data-i="liveSnapshot">Live snapshot</h3><span class="subtle" id="todayLabel"></span></div>
+        <div class="quick-grid">
+          <div class="stat"><b id="snapTotal">0</b><span data-i="totalOrders">Total orders</span></div>
+          <div class="stat"><b id="snapDone">0</b><span data-i="completed">Completed</span></div>
+          <div class="stat"><b id="snapShop">0</b><span data-i="inShop">In Shop</span></div>
+          <div class="stat"><b id="snapDue">0</b><span data-i="balancesDue">Balances due</span></div>
+        </div>
+      </div>
+    </div>
+
+    <form id="orderForm" class="section" onsubmit="submitOrder(event)">
+      <div class="section-head"><h3 data-i="orderDetails">Order Details</h3><span class="subtle" data-i="requiredHint">Required fields are marked clearly.</span></div>
+      <div class="form-grid">
+        <div class="field full"><label data-i="chooseCatalogueDress">Choose from catalogue</label><select id="catalogueSelect" onchange="selectCatalogueDress(this.value)"></select></div>
+        <div class="selected-dress" id="selectedDressPreview"></div>
+        <div class="field"><label data-i="customerName">Customer name</label><input id="name" required></div>
+        <div class="field"><label data-i="mobile">Mobile</label><input id="mobile" required></div>
+        <div class="field"><label data-i="dressType">Dress / garment</label><input id="garment" required></div>
+        <div class="field"><label data-i="dressColor">Dress color</label><input id="color"></div>
+        <div class="field"><label data-i="totalAmount">Total amount (OMR)</label><input id="total" type="number" min="0" step="0.001" value="0"></div>
+        <div class="field"><label data-i="paidAmount">Amount paid (OMR)</label><input id="paid" type="number" min="0" step="0.001" value="0"></div>
+        <div class="field"><label data-i="dueDate">Due date</label><input id="due" type="date"></div>
+        <div class="field full">
+          <label data-i="creativePhoto">Creative dress photo upload</label>
+          <div class="upload">
+            <div class="upload-preview" id="photoPreview"></div>
+            <div><input id="photo" type="file" accept="image/*"><p class="subtle" data-i="photoHelp">Upload inspiration, fabric, sketch, or customer reference. It will be visible to Admin and Shopdesk.</p></div>
+          </div>
+        </div>
+        <div class="field full"><label data-i="notes">Order notes</label><textarea id="notes"></textarea></div>
+      </div>
+
+      <div class="section-head"><h3 data-i="bodyMeasurements">Body Measurements</h3><span class="subtle" data-i="measureHint">Clear inch values for workshop review.</span></div>
+      <div class="measures" id="measureInputs"></div>
+      <div class="btn-row" style="margin-top:18px"><button class="btn primary" type="submit" data-i="placeOrder">Place order</button><button class="btn" type="reset" onclick="clearPreview()" data-i="clear">Clear</button></div>
+    </form>
+  </section>
+
+  <section id="admin" class="page">
+    <div class="section">
+      <div class="section-head"><div><h3 data-i="adminDashboard">Admin Dashboard</h3><p class="subtle" data-i="adminIntro">Move orders freely, record payments, request adjustments, and export the daily report.</p></div><div class="btn-row"><button class="btn" onclick="exportDailyReport()" data-i="exportPdf">Daily PDF report</button><button class="btn" onclick="seedDemo()" data-i="demoData">Demo data</button></div></div>
+      <div class="stats" id="stats"></div>
+    </div>
+    <div class="dashboard-grid">
+      <div class="section"><div class="section-head"><h3 data-i="weeklyTrend">Weekly dress orders</h3><input id="search" placeholder="Search" oninput="renderAll()"></div><div class="chart" id="chart"></div></div>
+      <div class="section"><div class="section-head"><h3 data-i="completedOrders">Completed orders</h3><span class="subtle" id="completedSummary"></span></div><div id="completedList"></div></div>
+    </div>
+    <div class="section"><div class="section-head"><h3 data-i="orderManagement">Order management</h3><span class="subtle" data-i="nextHint">Next moves through In Workshop, In Shop, and Completed. Admin can also choose any stage.</span></div><div class="table-wrap"><table><thead><tr><th data-i="photo">Photo</th><th data-i="order">Order</th><th data-i="customer">Customer</th><th data-i="status">Status</th><th data-i="payment">Payment</th><th data-i="actions">Actions</th></tr></thead><tbody id="ordersTable"></tbody></table></div></div>
+  </section>
+
+  <section id="locations" class="page">
+    <div class="section status-hero">
+      <div class="section-head"><div><h3 data-i="clothesStatusTitle">Clothes Status</h3><p class="subtle" data-i="clothesStatusIntro">A live atelier board showing exactly where every dress is now: being tailored, ready in shop, or completed.</p></div><button class="btn" onclick="renderAll()" data-i="refresh">Refresh</button></div>
+      <div class="status-strip" id="statusStrip"></div>
+    </div>
+    <div class="section"><div class="section-head"><div><h3 data-i="statusBoardTitle">Dress movement board</h3><p class="subtle" data-i="statusBoardIntro">Open any card to review photos, measurements, balance, and adjustment notes.</p></div></div><div class="kanban" id="kanban"></div></div>
+  </section>
+
+  <section id="shopdesk" class="page">
+    <div class="section"><div class="section-head"><div><h3 data-i="shopdeskTitle">Shopdesk</h3><p class="subtle" data-i="shopIntro">View photos, balances, and measurements before customer collection.</p></div><button class="btn" onclick="exportDailyReport()" data-i="exportPdf">Daily PDF report</button></div><div class="stats" id="shopStats"></div></div>
+    <div class="section"><div class="section-head"><h3 data-i="ordersInShop">Orders in shop</h3></div><div class="shop-list" id="shopList"></div></div>
+  </section>
+
+  <section id="catalogue" class="page">
+    <div class="section">
+      <div class="section-head"><div><h3 data-i="catalogueTitle">Dress Catalogue</h3><p class="subtle" data-i="catalogueIntro">Add dress photos, Arabic and English names, colors, and prices. New Order will use these instantly.</p></div></div>
+      <form class="catalogue-form" id="catalogueForm" onsubmit="addCatalogueItem(event)">
+        <div class="field"><label data-i="dressNameEn">Dress name English</label><input id="catNameEn" required></div>
+        <div class="field"><label data-i="dressNameAr">Dress name Arabic</label><input id="catNameAr" required></div>
+        <div class="field"><label data-i="dressColor">Dress color</label><input id="catColor" required></div>
+        <div class="field"><label data-i="priceOmr">Price (OMR)</label><input id="catPrice" type="number" min="0" step="0.001" required></div>
+        <div class="field"><label data-i="photo">Photo</label><input id="catPhoto" type="file" accept="image/*" onchange="previewCataloguePhoto(event)"></div>
+        <div class="field"><label data-i="styleNote">Style note</label><input id="catNote"></div>
+        <div class="field full"><div class="upload"><div class="upload-preview" id="catPhotoPreview"></div><div><p class="subtle" data-i="cataloguePhotoHelp">Use clear dress photos now; later this can become a full pricing catalogue for customers.</p><button class="btn primary" type="button" onclick="addCatalogueItem(event)" data-i="addDress">Add dress to catalogue</button></div></div></div>
+      </form>
+    </div>
+    <div class="section"><div class="section-head"><h3 data-i="catalogueItems">Catalogue items</h3></div><div class="catalogue-grid" id="catalogueGrid"></div></div>
+  </section>
+</main>
+
+<div id="modal" class="modal" onclick="if(event.target.id==='modal')closeModal()"><div class="modal-card"><div class="modal-head"><h3 id="modalTitle"></h3><button class="btn" onclick="closeModal()" data-i="close">Close</button></div><div class="modal-body" id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
+
+<script>
+const STORE='al3nood.signature.orders.v2';
+const CAT_STORE='al3nood.signature.catalogue.v1';
+const stages=['workshop','shop','done'];
+const measureDefs=[
+  ['chest','Chest','الصدر'],['waist','Waist','الخصر'],['hips','Hips','الأرداف'],['shoulder','Shoulder','الكتف'],
+  ['sleeve','Sleeve','الكم'],['height','Height','الطول'],['neck','Neck','الرقبة'],['wrist','Wrist','المعصم'],['arm','Arm width','عرض الذراع']
+];
+const t={
+  en:{brandSub:'Order studio',customerPage:'New Order',adminPage:'Admin',locationsPage:'Clothes Status',shopPage:'Shopdesk',cataloguePage:'Catalogue',heroEye:'New Order',heroText:'Create a complete dress order in one step. Photos, measurements, pricing, and workshop notes flow instantly to Admin, Clothes Status, and Shopdesk.',startOrder:'Start order',adminDesk:'Admin desk',liveSnapshot:'Live snapshot',totalOrders:'Total orders',completed:'Completed',inShop:'In Shop',balancesDue:'Balances due',orderDetails:'Order Details',requiredHint:'Required fields are marked clearly.',customerName:'Customer name',mobile:'Mobile',dressType:'Dress / garment',totalAmount:'Total amount (OMR)',paidAmount:'Amount paid (OMR)',dueDate:'Due date',creativePhoto:'Creative dress photo upload',photoHelp:'Upload inspiration, fabric, sketch, or customer reference. It will be visible to Admin and Shopdesk.',notes:'Order notes',bodyMeasurements:'Body Measurements',measureHint:'Clear inch values for workshop review.',placeOrder:'Place order',clear:'Clear',adminDashboard:'Admin Dashboard',adminIntro:'Move orders freely, record payments, request adjustments, and export the daily report.',exportPdf:'Daily PDF report',demoData:'Demo data',weeklyTrend:'Weekly dress orders',completedOrders:'Completed orders',orderManagement:'Order management',nextHint:'Next moves through In Workshop, In Shop, and Completed. Admin can also choose any stage.',photo:'Photo',order:'Order',customer:'Customer',status:'Status',payment:'Payment',actions:'Actions',locationsTitle:'Clothes Status',locationsIntro:'Every dress appears in the correct live status immediately.',clothesStatusTitle:'Clothes Status',clothesStatusIntro:'A live atelier board showing exactly where every dress is now: being tailored, ready in shop, or completed.',statusBoardTitle:'Dress movement board',statusBoardIntro:'Open any card to review photos, measurements, balance, and adjustment notes.',workshopDesc:'Tailoring, measurement review, and adjustment work.',shopDesc:'Ready at the shop for collection and final payment.',doneDesc:'Collected or fully completed orders.',refresh:'Refresh',shopdeskTitle:'Shopdesk',shopIntro:'View photos, balances, and measurements before customer collection.',ordersInShop:'Orders in shop',catalogueTitle:'Dress Catalogue Preparation',catalogueIntro:'Ready placeholders for later dress photos, names, and prices.',close:'Close',view:'View',next:'Next',amountPaid:'Amount Paid',adjustment:'Request adjustment',returnWorkshop:'Return to workshop',collect:'Confirm collection',empty:'No orders yet',all:'All',workshop:'In Workshop',shop:'In Shop',done:'Completed',paidFull:'Customer paid full amount',remaining:'Customer has remaining balance to pay',balance:'Remaining balance',paid:'Paid',total:'Total',omr:'OMR',measurements:'Measurements',save:'Save',statusSaved:'Status updated',orderCreated:'Order placed and reflected across all pages.',reportTitle:'Daily Orders Report',incorrectMeasurements:'Body measurements incorrect / adjustment needed',catalogueSlot:'Future dress',namePrice:'Name and price later',search:'Search'},
+  ar:{brandSub:'استوديو الطلبات',customerPage:'طلب جديد',adminPage:'الإدارة',locationsPage:'حالة الملابس',shopPage:'المحل',cataloguePage:'الكتالوج',heroEye:'طلب جديد',heroText:'أنشئ طلب فستان كامل في خطوة واحدة. الصور والمقاسات والسعر والملاحظات تظهر فوراً في الإدارة وحالة الملابس والمحل.',startOrder:'ابدأ الطلب',adminDesk:'مكتب الإدارة',liveSnapshot:'لمحة مباشرة',totalOrders:'كل الطلبات',completed:'مكتملة',inShop:'في المحل',balancesDue:'مبالغ متبقية',orderDetails:'تفاصيل الطلب',requiredHint:'الحقول المطلوبة موضحة.',customerName:'اسم الزبونة',mobile:'الهاتف',dressType:'الفستان / القطعة',totalAmount:'المبلغ الكلي (ريال عماني)',paidAmount:'المبلغ المدفوع (ريال عماني)',dueDate:'تاريخ التسليم',creativePhoto:'رفع صورة إبداعية للفستان',photoHelp:'ارفعي إلهاماً أو قماشاً أو رسمة أو مرجعاً للزبونة. ستظهر الصورة للإدارة والمحل.',notes:'ملاحظات الطلب',bodyMeasurements:'مقاسات الجسم',measureHint:'قيم واضحة بالإنش لمراجعة المشغل.',placeOrder:'تأكيد الطلب',clear:'مسح',adminDashboard:'لوحة الإدارة',adminIntro:'غيّر حالة الطلب بحرية، سجّل الدفعات، اطلب تعديلات، وصدّر تقرير اليوم.',exportPdf:'تقرير PDF يومي',demoData:'بيانات تجريبية',weeklyTrend:'طلبات الفساتين أسبوعياً',completedOrders:'الطلبات المكتملة',orderManagement:'إدارة الطلبات',nextHint:'زر التالي ينقل الطلب بين في المشغل، في المحل، ومكتمل. ويمكن للإدارة اختيار أي مرحلة.',photo:'الصورة',order:'الطلب',customer:'الزبونة',status:'الحالة',payment:'الدفع',actions:'إجراءات',locationsTitle:'حالة الملابس',locationsIntro:'كل فستان يظهر فوراً في حالته الصحيحة.',clothesStatusTitle:'حالة الملابس',clothesStatusIntro:'لوحة مباشرة توضّح مكان كل فستان الآن: في الخياطة، جاهز في المحل، أو مكتمل.',statusBoardTitle:'لوحة حركة الفساتين',statusBoardIntro:'افتحي أي بطاقة لمراجعة الصور والمقاسات والمبلغ المتبقي وملاحظات التعديل.',workshopDesc:'خياطة، مراجعة المقاسات، وتنفيذ التعديلات.',shopDesc:'جاهز في المحل للاستلام والدفع النهائي.',doneDesc:'طلبات مستلمة أو مكتملة بالكامل.',refresh:'تحديث',shopdeskTitle:'مكتب المحل',shopIntro:'عرض الصور والمبالغ والمقاسات قبل التسليم.',ordersInShop:'طلبات في المحل',catalogueTitle:'تحضير كتالوج الفساتين',catalogueIntro:'أماكن جاهزة لإضافة صور وأسماء وأسعار الفساتين لاحقاً.',close:'إغلاق',view:'عرض',next:'التالي',amountPaid:'المبلغ المدفوع',adjustment:'طلب تعديل',returnWorkshop:'إرجاع للمشغل',collect:'تأكيد الاستلام',empty:'لا توجد طلبات بعد',all:'الكل',workshop:'في المشغل',shop:'في المحل',done:'مكتمل',paidFull:'الزبونة دفعت كامل المبلغ',remaining:'يوجد مبلغ متبقٍ على الزبونة',balance:'المتبقي',paid:'المدفوع',total:'الإجمالي',omr:'ريال عماني',measurements:'المقاسات',save:'حفظ',statusSaved:'تم تحديث الحالة',orderCreated:'تم إنشاء الطلب وظهر في جميع الصفحات.',reportTitle:'تقرير الطلبات اليومي',incorrectMeasurements:'المقاسات غير صحيحة / يحتاج تعديل',catalogueSlot:'فستان لاحق',namePrice:'الاسم والسعر لاحقاً',search:'بحث'}
+};
+let lang=localStorage.getItem('al3nood.lang')||'en';
+let orders=loadOrders();
+let uploadedPhoto='';
+let catalogue=loadCatalogue();
+let cataloguePhoto='';
+let selectedCatalogueId='';
+
+Object.assign(t.en,{catalogueTitle:'Dress Catalogue',catalogueIntro:'Add dress photos, Arabic and English names, colors, and prices. New Order will use these instantly.',chooseCatalogueDress:'Choose dress from catalogue',dressColor:'Dress color',dressNameEn:'Dress name English',dressNameAr:'Dress name Arabic',priceOmr:'Price (OMR)',styleNote:'Style note',cataloguePhotoHelp:'Use clear dress photos now; later this can become a full pricing catalogue for customers.',addDress:'Add dress to catalogue',catalogueItems:'Catalogue items',noCatalogue:'No catalogue dresses yet. Add one in Catalogue.',customDress:'Custom dress / not in catalogue',catalogueSaved:'Dress added to catalogue and synced with New Order.',catalogueDeleted:'Dress removed from catalogue.',selectedCatalogue:'Selected catalogue dress',colour:'Color'});
+Object.assign(t.ar,{catalogueTitle:'كتالوج الفساتين',catalogueIntro:'أضيفي صور الفساتين والأسماء بالعربية والإنجليزية والألوان والأسعار. صفحة الطلب الجديد ستستخدمها فوراً.',chooseCatalogueDress:'اختيار فستان من الكتالوج',dressColor:'لون الفستان',dressNameEn:'اسم الفستان بالإنجليزية',dressNameAr:'اسم الفستان بالعربية',priceOmr:'السعر (ريال عماني)',styleNote:'ملاحظة التصميم',cataloguePhotoHelp:'استخدمي صور فساتين واضحة الآن؛ لاحقاً يمكن تحويلها إلى كتالوج أسعار كامل للزبائن.',addDress:'إضافة الفستان للكتالوج',catalogueItems:'عناصر الكتالوج',noCatalogue:'لا توجد فساتين في الكتالوج بعد. أضيفي فستاناً من صفحة الكتالوج.',customDress:'فستان خاص / غير موجود في الكتالوج',catalogueSaved:'تمت إضافة الفستان للكتالوج وتحديث الطلب الجديد.',catalogueDeleted:'تم حذف الفستان من الكتالوج.',selectedCatalogue:'الفستان المختار من الكتالوج',colour:'اللون'});
+
+function loadOrders(){try{return JSON.parse(localStorage.getItem(STORE)||'[]')}catch(e){return []}}
+function saveOrders(){localStorage.setItem(STORE,JSON.stringify(orders));renderAll()}
+function loadCatalogue(){try{return JSON.parse(localStorage.getItem(CAT_STORE)||'[]')}catch(e){return []}}
+function saveCatalogue(){localStorage.setItem(CAT_STORE,JSON.stringify(catalogue));renderAll()}
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+function money(n){return `${Number(n||0).toFixed(3)} ${tr('omr')}`}
+function tr(k){return (t[lang]&&t[lang][k])||t.en[k]||k}
+function stageLabel(s){return tr(s)}
+function balance(o){return Math.max(0,Number(o.total||0)-Number(o.paid||0))}
+function payText(o){return balance(o)<=0?tr('paidFull'):`${tr('remaining')}: ${money(balance(o))}`}
+function uid(){return 'AS-'+new Date().toISOString().slice(2,10).replaceAll('-','')+'-'+Math.floor(1000+Math.random()*9000)}
+function today(){return new Date().toISOString().slice(0,10)}
+
+function setLang(next){lang=next;localStorage.setItem('al3nood.lang',lang);document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';document.body.classList.toggle('rtl',lang==='ar');document.querySelectorAll('[data-i]').forEach(el=>el.textContent=tr(el.dataset.i));document.getElementById('enBtn').classList.toggle('active',lang==='en');document.getElementById('arBtn').classList.toggle('active',lang==='ar');renderNav();renderMeasureInputs();renderCatalogueSelect();renderAll()}
+function renderNav(){const pages=[['customer','customerPage'],['admin','adminPage'],['locations','locationsPage'],['shopdesk','shopPage'],['catalogue','cataloguePage']];document.getElementById('nav').innerHTML=pages.map(([id,key])=>`<button class="${document.getElementById(id).classList.contains('active')?'active':''}" onclick="go('${id}')">${tr(key)}</button>`).join('')}
+function go(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active');renderNav();renderAll();scrollTo(0,0)}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2800)}
+
+function renderMeasureInputs(){const wrap=document.getElementById('measureInputs');const existing={};wrap.querySelectorAll('input').forEach(i=>existing[i.dataset.key]=i.value);wrap.innerHTML=measureDefs.map(([k,en,ar])=>`<div class="measure"><span>${lang==='ar'?ar:en}</span><input data-key="${k}" id="m-${k}" type="number" min="0" step="0.25" placeholder="inch"></div>`).join('');Object.entries(existing).forEach(([k,v])=>{const el=document.getElementById('m-'+k);if(el)el.value=v})}
+document.getElementById('photo').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{uploadedPhoto=reader.result;document.getElementById('photoPreview').innerHTML=`<img alt="uploaded dress reference" src="${uploadedPhoto}">`};reader.readAsDataURL(file)});
+function clearPreview(){uploadedPhoto='';document.getElementById('photoPreview').innerHTML=''}
+function catalogueName(item){return lang==='ar'?(item.nameAr||item.nameEn):(item.nameEn||item.nameAr)}
+function catalogueFullName(item){return `${item.nameEn||''}${item.nameAr?' / '+item.nameAr:''}`.trim()}
+function renderCatalogueSelect(){
+  const select=document.getElementById('catalogueSelect');
+  if(!select)return;
+  const current=select.value||selectedCatalogueId;
+  select.innerHTML=`<option value="">${tr('customDress')}</option>`+catalogue.map(item=>`<option value="${item.id}">${esc(catalogueName(item))} - ${esc(item.color)} - ${money(item.price)}</option>`).join('');
+  select.value=catalogue.some(item=>item.id===current)?current:'';
+  selectedCatalogueId=select.value;
+  if(selectedCatalogueId)selectCatalogueDress(selectedCatalogueId);
+}
+function selectCatalogueDress(id){
+  selectedCatalogueId=id;
+  const item=catalogue.find(x=>x.id===id);
+  const preview=document.getElementById('selectedDressPreview');
+  if(!item){preview.classList.remove('show');preview.innerHTML='';return}
+  document.getElementById('garment').value=catalogueName(item);
+  document.getElementById('color').value=item.color||'';
+  document.getElementById('total').value=Number(item.price||0).toFixed(3);
+  preview.classList.add('show');
+  preview.innerHTML=`<div class="thumb">${item.photo?`<img src="${item.photo}" alt="">`:''}</div><div><b>${tr('selectedCatalogue')}: ${esc(catalogueFullName(item))}</b><span>${tr('colour')}: ${esc(item.color)} · ${tr('priceOmr')}: ${money(item.price)}</span>${item.note?`<span>${esc(item.note)}</span>`:''}</div>`;
+}
+function previewCataloguePhoto(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{cataloguePhoto=reader.result;document.getElementById('catPhotoPreview').innerHTML=`<img alt="catalogue dress" src="${cataloguePhoto}">`};
+  reader.readAsDataURL(file);
+}
+function addCatalogueItem(e){
+  e.preventDefault();
+  const form=document.getElementById('catalogueForm');
+  if(!form.reportValidity())return;
+  const item={id:'DR-'+Date.now(),nameEn:val('catNameEn'),nameAr:val('catNameAr'),color:val('catColor'),price:Number(val('catPrice')||0),note:val('catNote'),photo:cataloguePhoto,createdAt:new Date().toISOString()};
+  catalogue.unshift(item);
+  form.reset();cataloguePhoto='';document.getElementById('catPhotoPreview').innerHTML='';
+  saveCatalogue();renderCatalogueSelect();toast(tr('catalogueSaved'));
+}
+function deleteCatalogueItem(id){
+  catalogue=catalogue.filter(item=>item.id!==id);
+  if(selectedCatalogueId===id){selectedCatalogueId='';document.getElementById('catalogueSelect').value='';selectCatalogueDress('')}
+  saveCatalogue();toast(tr('catalogueDeleted'));
+}
+
+function submitOrder(e){
+  e.preventDefault();
+  const measures={};measureDefs.forEach(([k])=>measures[k]=document.getElementById('m-'+k).value||'');
+  const selected=catalogue.find(x=>x.id===selectedCatalogueId);
+  const order={id:uid(),createdAt:new Date().toISOString(),date:today(),name:val('name'),mobile:val('mobile'),catalogueId:selectedCatalogueId||'',garment:val('garment'),color:val('color'),total:Number(val('total')||0),paid:Number(val('paid')||0),due:val('due'),notes:val('notes'),photo:uploadedPhoto||(selected&&selected.photo)||'',status:'workshop',measures,adjustments:[]};
+  orders.unshift(order);saveOrders();e.target.reset();selectedCatalogueId='';renderCatalogueSelect();selectCatalogueDress('');clearPreview();toast(tr('orderCreated'));go('admin');
+}
+function val(id){return document.getElementById(id).value.trim()}
+
+function renderAll(){
+  orders=loadOrders();
+  catalogue=loadCatalogue();
+  const counts={all:orders.length,workshop:0,shop:0,done:0,due:0};orders.forEach(o=>{counts[o.status]=(counts[o.status]||0)+1;if(balance(o)>0)counts.due++});
+  document.getElementById('todayLabel').textContent=new Date().toLocaleDateString(lang==='ar'?'ar-OM':'en-GB',{weekday:'long',month:'long',day:'numeric'});
+  ['snapTotal','snapDone','snapShop','snapDue'].forEach((id,i)=>document.getElementById(id).textContent=[counts.all,counts.done,counts.shop,counts.due][i]);
+  renderCatalogueSelect();renderStatusStrip(counts);renderStats(counts);renderTable();renderChart();renderCompleted();renderKanban();renderShop();renderCatalogue();
+}
+function renderStatusStrip(c){const el=document.getElementById('statusStrip');if(!el)return;el.innerHTML=[['workshop',tr('workshop'),c.workshop],['shop',tr('shop'),c.shop],['done',tr('done'),c.done],['due',tr('balancesDue'),c.due]].map(x=>`<span class="status-pill">${x[1]} · ${x[2]}</span>`).join('')}
+function renderStats(c){const stats=[['all',tr('all'),c.all],['workshop',tr('workshop'),c.workshop],['shop',tr('shop'),c.shop],['done',tr('done'),c.done],['due',tr('balancesDue'),c.due]];document.getElementById('stats').innerHTML=stats.map(s=>`<div class="stat"><b>${s[2]}</b><span>${s[1]}</span></div>`).join('')}
+function photoCell(o){return `<div class="thumb">${o.photo?`<img src="${o.photo}" alt="">`:''}</div>`}
+function statusSelect(o){return `<select onchange="setStatus('${o.id}',this.value)">${stages.map(s=>`<option value="${s}" ${o.status===s?'selected':''}>${stageLabel(s)}</option>`).join('')}</select>`}
+function renderTable(){
+  const q=(document.getElementById('search')?.value||'').toLowerCase();
+  const rows=orders.filter(o=>!q||[o.id,o.name,o.mobile,o.garment,o.color,o.status].join(' ').toLowerCase().includes(q));
+  document.getElementById('ordersTable').innerHTML=rows.length?rows.map(o=>`<tr><td>${photoCell(o)}</td><td><b>${o.id}</b><br><span class="subtle">${esc(o.garment)}${o.color?` · ${esc(o.color)}`:''}<br>${o.date}</span></td><td>${esc(o.name)}<br><span class="subtle">${esc(o.mobile)}</span></td><td><span class="badge ${o.status}">${stageLabel(o.status)}</span><br>${statusSelect(o)}</td><td><b>${money(o.total)}</b><br><span>${tr('paid')}: ${money(o.paid)}</span><br><span class="${balance(o)<=0?'pay-ok':'pay-due'}">${payText(o)}</span></td><td><div class="btn-row"><button class="btn small" onclick="openOrder('${o.id}')">${tr('view')}</button><button class="btn small good" onclick="nextStatus('${o.id}')">${tr('next')}</button><button class="btn small" onclick="editPaid('${o.id}')">${tr('amountPaid')}</button><button class="btn small danger" onclick="requestAdjustment('${o.id}')">${tr('adjustment')}</button></div></td></tr>`).join(''):`<tr><td colspan="6">${tr('empty')}</td></tr>`;
+}
+function setStatus(id,status){const o=orders.find(x=>x.id===id);if(!o)return;o.status=status;saveOrders();toast(tr('statusSaved'))}
+function nextStatus(id){const o=orders.find(x=>x.id===id);if(!o)return;const i=stages.indexOf(o.status);o.status=stages[Math.min(i+1,stages.length-1)];saveOrders();toast(tr('statusSaved'))}
+function editPaid(id){const o=orders.find(x=>x.id===id);if(!o)return;const amount=prompt(`${tr('amountPaid')} (${tr('omr')})`,o.paid);if(amount===null)return;o.paid=Math.max(0,Number(amount)||0);saveOrders();openOrder(id)}
+function requestAdjustment(id){const o=orders.find(x=>x.id===id);if(!o)return;const note=prompt(tr('adjustment'),tr('incorrectMeasurements'));if(note===null)return;o.adjustments.unshift({date:new Date().toLocaleString(),note});saveOrders();openOrder(id)}
+function returnWorkshop(id){const o=orders.find(x=>x.id===id);if(!o)return;o.status='workshop';o.adjustments.unshift({date:new Date().toLocaleString(),note:tr('incorrectMeasurements')});saveOrders();openOrder(id)}
+
+function renderChart(){const days=[...Array(7)].map((_,i)=>{const d=new Date();d.setDate(d.getDate()-(6-i));return d});const max=Math.max(1,...days.map(d=>orders.filter(o=>o.date===d.toISOString().slice(0,10)).length));document.getElementById('chart').innerHTML=days.map(d=>{const iso=d.toISOString().slice(0,10);const count=orders.filter(o=>o.date===iso).length;return `<div class="bar" style="height:${Math.max(8,count/max*170)}px"><span>${count}</span><small>${d.toLocaleDateString(lang==='ar'?'ar-OM':'en-US',{weekday:'short'})}</small></div>`}).join('')}
+function renderCompleted(){const done=orders.filter(o=>o.status==='done');document.getElementById('completedSummary').textContent=`${done.length} / ${orders.length}`;document.getElementById('completedList').innerHTML=done.length?done.slice(0,6).map(o=>`<div class="order-card" onclick="openOrder('${o.id}')"><strong>${esc(o.name)}</strong><small>${o.id} · ${esc(o.garment)}${o.color?` · ${esc(o.color)}`:''}</small><br><span class="${balance(o)<=0?'pay-ok':'pay-due'}">${payText(o)}</span></div>`).join(''):`<p class="subtle">${tr('empty')}</p>`}
+function renderKanban(){const meta={workshop:{icon:'CUT',desc:tr('workshopDesc'),color:'#7454a4',soft:'#f0e9ff'},shop:{icon:'BAG',desc:tr('shopDesc'),color:'#2f855a',soft:'#e8f5ef'},done:{icon:'OK',desc:tr('doneDesc'),color:'#2b6cb0',soft:'#eaf3ff'}};document.getElementById('kanban').innerHTML=stages.map(s=>{const list=orders.filter(o=>o.status===s);const m=meta[s];return `<div class="kanban-col" style="--stage-color:${m.color};--stage-soft:${m.soft}"><div class="kanban-head"><div class="kanban-title"><span class="kanban-icon">${m.icon}</span><div><b>${stageLabel(s)}</b><span class="kanban-desc">${m.desc}</span></div></div><span class="badge ${s}">${list.length}</span></div>${list.length?list.map(o=>`<div class="order-card" onclick="openOrder('${o.id}')">${photoCell(o)}<strong>${esc(o.name)}</strong><small>${o.id} · ${esc(o.garment)}${o.color?` · ${esc(o.color)}`:''}</small><br><span class="${balance(o)<=0?'pay-ok':'pay-due'}">${money(balance(o))} ${tr('balance')}</span></div>`).join(''):`<p class="subtle">${tr('empty')}</p>`}</div>`}).join('')}
+function renderShop(){const shop=orders.filter(o=>o.status==='shop');const paid=shop.filter(o=>balance(o)<=0).length;document.getElementById('shopStats').innerHTML=[['shop',tr('inShop'),shop.length],['done',tr('paidFull'),paid],['due',tr('balancesDue'),shop.length-paid]].map(s=>`<div class="stat"><b>${s[2]}</b><span>${s[1]}</span></div>`).join('');document.getElementById('shopList').innerHTML=shop.length?shop.map(o=>`<div class="shop-card">${photoCell(o)}<div><b>${esc(o.name)}</b><br><span class="subtle">${o.id} · ${esc(o.garment)}${o.color?` · ${esc(o.color)}`:''} · ${esc(o.mobile)}</span><br><span class="${balance(o)<=0?'pay-ok':'pay-due'}">${payText(o)}</span></div><div class="btn-row"><button class="btn small" onclick="openOrder('${o.id}')">${tr('view')}</button><button class="btn small" onclick="editPaid('${o.id}')">${tr('amountPaid')}</button><button class="btn small danger" onclick="returnWorkshop('${o.id}')">${tr('returnWorkshop')}</button><button class="btn small good" onclick="setStatus('${o.id}','done')">${tr('collect')}</button></div></div>`).join(''):`<p class="subtle">${tr('empty')}</p>`}
+function renderCatalogue(){
+  const grid=document.getElementById('catalogueGrid');
+  if(!catalogue.length){grid.innerHTML=`<div class="dress-slot"><div class="photo-space">+</div><h4>${tr('catalogueSlot')}</h4><p class="subtle">${tr('noCatalogue')}</p></div>`;return}
+  grid.innerHTML=catalogue.map(item=>`<div class="catalogue-card">
+    <div class="catalogue-photo">${item.photo?`<img src="${item.photo}" alt="">`:'+'}</div>
+    <h4>${esc(catalogueFullName(item))}</h4>
+    <div class="catalogue-meta"><span class="chip"><span class="swatch" style="--dress-color:${esc(item.color)}"></span>${esc(item.color)}</span><span class="chip">${money(item.price)}</span></div>
+    ${item.note?`<p class="subtle">${esc(item.note)}</p>`:''}
+    <div class="btn-row"><button class="btn small" onclick="go('customer');selectCatalogueDress('${item.id}')">${tr('placeOrder')}</button><button class="btn small danger" onclick="deleteCatalogueItem('${item.id}')">${tr('clear')}</button></div>
+  </div>`).join('');
+}
+
+function openOrder(id){const o=orders.find(x=>x.id===id);if(!o)return;document.getElementById('modalTitle').textContent=`${o.id} · ${o.name}`;const measureHtml=measureDefs.map(([k,en,ar])=>`<div class="detail"><b>${lang==='ar'?ar:en}</b><span>${o.measures[k]||'-'} inch</span></div>`).join('');const adjustments=(o.adjustments||[]).map(a=>`<div class="detail"><b>${a.date}</b><span>${a.note}</span></div>`).join('')||`<p class="subtle">${tr('empty')}</p>`;document.getElementById('modalBody').innerHTML=`
+  <div class="timeline">${stages.map(s=>`<div class="stage ${o.status===s?'current':''}">${stageLabel(s)}</div>`).join('')}</div>
+  <div class="detail-grid">
+    <div class="detail"><b>${tr('customerName')}</b><span>${esc(o.name)}</span></div><div class="detail"><b>${tr('mobile')}</b><span>${esc(o.mobile)}</span></div><div class="detail"><b>${tr('dressType')}</b><span>${esc(o.garment)}</span></div>
+    <div class="detail"><b>${tr('status')}</b><span class="badge ${o.status}">${stageLabel(o.status)}</span></div><div class="detail"><b>${tr('payment')}</b><span class="${balance(o)<=0?'pay-ok':'pay-due'}">${payText(o)}</span></div><div class="detail"><b>${tr('dueDate')}</b><span>${o.due||'-'}</span></div>
+    <div class="detail"><b>${tr('colour')}</b><span>${esc(o.color||'-')}</span></div><div class="detail"><b>${tr('total')}</b><span>${money(o.total)}</span></div><div class="detail"><b>${tr('paid')}</b><span>${money(o.paid)}</span></div>
+    <div class="detail"><b>${tr('balance')}</b><span>${money(balance(o))}</span></div><div class="detail" style="grid-column:1/-1"><b>${tr('notes')}</b><span>${esc(o.notes||'-')}</span></div>
+  </div>
+  <div class="section" style="box-shadow:none"><div class="section-head"><h3>${tr('photo')}</h3></div><div style="max-width:360px">${photoCell(o)}</div>${o.photo?`<img src="${o.photo}" alt="" style="margin-top:12px;max-width:100%;border-radius:8px;border:1px solid var(--line)">`:''}</div>
+  <div class="section" style="box-shadow:none"><div class="section-head"><h3>${tr('measurements')}</h3></div><div class="detail-grid">${measureHtml}</div></div>
+  <div class="section" style="box-shadow:none"><div class="section-head"><h3>${tr('adjustment')}</h3></div>${adjustments}</div>
+  <div class="btn-row"><button class="btn good" onclick="nextStatus('${o.id}')">${tr('next')}</button><button class="btn" onclick="editPaid('${o.id}')">${tr('amountPaid')}</button><button class="btn danger" onclick="returnWorkshop('${o.id}')">${tr('returnWorkshop')}</button>${statusSelect(o)}</div>`;
+  document.getElementById('modal').classList.add('show');
+}
+function closeModal(){document.getElementById('modal').classList.remove('show')}
+
+function exportDailyReport(){
+  const todayOrders=orders.filter(o=>o.date===today());
+  const rows=(todayOrders.length?todayOrders:orders).map(o=>`<tr><td>${o.id}</td><td>${esc(o.name)}<br>${esc(o.mobile)}</td><td>${esc(o.garment)}<br>${esc(o.color||'')}</td><td>${stageLabel(o.status)}</td><td>${money(o.total)}</td><td>${money(o.paid)}</td><td>${money(balance(o))}</td><td>${Object.entries(o.measures).map(([k,v])=>`${k}: ${esc(v||'-')}`).join('<br>')}</td><td>${esc(o.notes||'')}</td></tr>`).join('');
+  const w=window.open('','_blank');w.document.write(`<!doctype html><html dir="${lang==='ar'?'rtl':'ltr'}"><head><title>${tr('reportTitle')}</title><style>body{font-family:Arial,Tahoma,sans-serif;padding:24px;color:#1c140d}h1{color:#b98936}table{width:100%;border-collapse:collapse;font-size:12px}th,td{border:1px solid #ddcdb8;padding:8px;vertical-align:top}th{background:#1c140d;color:#e3c171}</style></head><body><h1>Al3nood.Signature - ${tr('reportTitle')}</h1><p>${new Date().toLocaleString(lang==='ar'?'ar-OM':'en-GB')}</p><table><thead><tr><th>${tr('order')}</th><th>${tr('customer')}</th><th>${tr('dressType')} / ${tr('colour')}</th><th>${tr('status')}</th><th>${tr('total')}</th><th>${tr('paid')}</th><th>${tr('balance')}</th><th>${tr('bodyMeasurements')}</th><th>${tr('notes')}</th></tr></thead><tbody>${rows}</tbody></table><script>print()<\/script></body></html>`);w.document.close();
+}
+function seedDemo(){if(orders.length&&!confirm('Add demo orders?'))return;const demo=[['Aisha Al Balushi','9123 4567','Evening dress','Pearl',75,25,'workshop'],['Maha Al Hinai','9234 5678','Jalabiya','Emerald',52,52,'shop'],['Noor Al Riyami','9345 6789','Wedding dress','Ivory',180,100,'done']];demo.forEach(d=>orders.unshift({id:uid(),createdAt:new Date().toISOString(),date:today(),name:d[0],mobile:d[1],catalogueId:'',garment:d[2],color:d[3],total:d[4],paid:d[5],due:'',notes:'',photo:'',status:d[6],measures:Object.fromEntries(measureDefs.map(([k])=>[k,''])),adjustments:[]}));saveOrders()}
+window.addEventListener('storage',e=>{if(e.key===STORE||e.key===CAT_STORE)renderAll()});
+document.addEventListener('DOMContentLoaded',()=>setLang(lang));
+</script>
+</body>
+</html>
